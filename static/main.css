@@ -1,0 +1,221 @@
+body{
+    background-color: #74AFAD;
+    background-image: url('neurons.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%, 100%;
+}
+
+.nav.navbar-nav.pull-left{
+    color: black;
+    text-transform: capitalize;
+    display: inline-block;
+}
+
+li a{
+    color: #deeaee;
+    font-weight: 600;
+    font-size: 150%;
+}
+
+
+h3{
+    font-weight: 900;
+}
+
+h4{
+    font-weight: 600;
+}
+
+.header {
+    background-color: #c1502e;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.container {
+    margin-top: 30px;
+    padding: 10px;
+    background-color: #558C89;
+    max-width: 970px;
+    color: black;
+    border-radius: 5px;
+}
+
+
+.marketing {
+    padding: 0px 15px 0px 15px;
+}
+
+#cards 
+{
+    display: none;
+    padding: 10px;
+    background-color:  #deeaee;
+    margin-bottom: 30px;
+    box-shadow: 10px, 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    }
+
+
+#boards {
+    padding: 10px;
+    background-color:  #deeaee;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+    word-wrap: break-word;
+    padding-right: 10%;
+    padding-left: 1%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.col-md-3{
+    border: 1px solid grey;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 3px 3px 1px #888888;
+ }
+
+.board_title {
+    padding: 2% 0%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background-color: #74AFAD;
+    font-size: 150%;
+    color: #deeaee;
+    text-shadow: 2px 2px #3f6c6b;
+    box-shadow: 2px 2px 0px #3f6c6b;
+    cursor: pointer;
+}
+
+.board_id {
+    display: none;
+}
+
+footer p{
+    color: #deeaee;
+    margin-right: 30px;
+    float: right;
+}
+
+.connectedSortable{
+    box-shadow: 0px 3px 1px #888888;
+    background-color: #74AFAD;
+    margin: auto;
+    padding: 10px;
+    min-height: 240px;
+    border-radius: 0px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top: none;
+}
+.card-column {
+    display:inline-block;
+    border: none;
+    box-shadow: none;
+    border-radius: none;
+    padding: 0px 0px;
+    margin: 0px 0px -10px 0px;
+}
+#columnNames {
+    margin: 0px;
+}
+#columnNames h2{
+    padding: 10px 0px;
+    margin-top: 10px;
+    background-color: #74AFAD;
+    font-size: 250%;
+    color: #deeaee;
+    text-shadow: 3px 3px #3f6c6b;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border: 1px solid grey;
+    border-bottom: none;
+}
+
+.card {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0px;
+    background-color: #c1502e;
+    color: #3f6c6b;
+    text-align: center;
+    border-radius: 25px;
+    box-shadow: 10px, 10px;
+    cursor: pointer;
+    box-shadow: 0px 3px 2px #888888;
+    }
+
+.card_id {
+    background-color: pink;
+}
+
+.card_title {
+    font-size: 200%;
+        color: #deeaee;
+    
+    border-radius: 5px;
+    padding: 0px 5px;
+}
+
+.card_status{
+    display: none;
+    color: #deeaee;
+    background-color: #c1502e;
+    border-radius: 5px;
+    padding: 0px 5px;
+}
+
+.card > p {
+    display: none;
+}
+
+#project-title{
+    float:right;
+    margin-right:20px;
+    margin-top: 10px;
+    color: #deeaee;
+}
+
+.detailed-board{
+    margin: 0px 0px;
+    text-align: center;
+    font-weight: 900;
+    text-shadow: 2px, 2px, 4px, #b2c2bf;
+    color: black, bold;
+    background-color: #deeaee;
+}
+
+.detailed-board > div {
+    display: inline-block;
+    margin: 10px;
+}
+#detailed-board-title {
+    font-size: 300%;
+    float: left;
+    margin-left: 20px;
+    color: #3f6c6b;
+    text-shadow: 0.5px 0.5px #3f6c6b;
+}
+#detailed-board-id, #detailed-board-state {
+    float: left;
+    margin-top: 20px;
+    margin-right: 10px;
+    color: #deeaee;
+    background-color: #c1502e;
+    padding: 0px 5px;
+    border-radius: 5px;
+}
+
+#back-to-root-toot, #create-new-board {
+    border-top-left-radius: 5px
+}
+
+#back-to-root-toot:hover, #create-new-board:hover, #create-new-card:hover, #settings-button:hover {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #deeaee;
+    color: #3f6c6b;
+}

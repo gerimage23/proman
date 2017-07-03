@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>ProMan</title>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+        <script src='https://code.jquery.com/jquery-3.1.1.min.js' defer></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+			    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+			    crossorigin="anonymous" defer></script>
+        <script src="{{url_for('static', filename='settings.js')}}" defer></script>
+        <script src="{{url_for('static', filename='data_handler.js')}}" defer></script>
+        <script src="{{url_for('static', filename='dom.js')}}" defer></script>
+        <script src="{{url_for('static', filename='main.js')}}" defer></script>
+    </head>
+    <body>
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav navbar-nav pull-left">
+            <li role="presentation"><a href="#"id="back-to-root-toot"> Home </a></li>
+            <li role="presentation"><a href="#"id="create-new-board"> Create new board</a></li>
+            <li role="presentation"><a href="#"id="create-new-card"> Add new card</a></li>
+            <li role="presentation"><a href="#"id="settings-button"></a></li>
+          </ul>
+          <h3 id="project-title" class="text-muted">ProMan</h3>
+        </nav>
+      </div>
+
+      <!--<div class="jumbotron">
+        <h1>Jumbotron heading</h1>
+        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+      </div>-->
+      <div class="row detailed-board">
+      </div>
+      <div class="row marketing">
+        <div class="col-sm-12" id="cards"></div>
+        <div class="col-sm-12" id="boards"></div>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 2017 Deep s Mode</p>
+      </footer>
+
+    </div> <!-- /container -->
+    </body>
+</html>
