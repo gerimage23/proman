@@ -3,7 +3,7 @@ from werkzeug import security
 import os
 import urllib
 
-CONNECTION_STRING = "dbname='starwars' user='gergoszabo23' host='localhost' password='Kelkaposzta23'"
+CONNECTION_STRING = "dbname=url.path[1:] user=url.username host=url.hostname password=url.password"
 
 
 def init_db_connection(connection_string=CONNECTION_STRING):
