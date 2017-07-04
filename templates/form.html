@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+    <title>Proman Registration</title>
+</head>
+<body>
+    <div class="container form-container">
+        <div class="col-md-6 form-col">
+            {% if errormsg %}
+            <div class="alert alert-danger">
+                <strong>{{errormsg}}</strong>
+            </div>
+            {% endif %}
+            <form action="/register-user" method="POST">
+                <h4>Username</h4>
+                <input type="text" id="username" name="username" placeholder="Enter your username..."><br>
+                <h4>Password</h4>                
+                <input type="password" id="password" name="password" placeholder="Enter your password...">
+                <input type="submit" value="Register" class="btn btn-primary" id="submit-reg-button">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
