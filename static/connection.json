@@ -1,0 +1,8 @@
+{ "connection": {
+    "host" : "ec2-54-75-229-201.eu-west-1.compute.amazonaws.com",
+    "database" : "d1vmbir57f49qf",
+    "user" : "sbcjqryaikuvtq",
+    "port" : "5432",
+    "password" : "64ea9d49945ec0b2ba2838400f964055dc138b9334ad3117b258914dc11d6b7b"
+    }
+}
