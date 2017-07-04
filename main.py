@@ -27,12 +27,12 @@ def users():
         temp_tupl['password'] = stat[i][2]
         temp_tupl['lastlog_time'] = stat[i][3]
         main_tupl['users'].append(temp_tupl)
-    #vote_json.append(temp_tupl)
+    # vote_json.append(temp_tupl)
     return jsonify(main_tupl)
 
 
-@app.route("/board", methods=['GET'])
-def board():
+@app.route("/load_boards", methods=['GET'])
+def load_boards():
     stat = execute_sql_statement("SELECT id, title, state, user_id FROM boards")
     vote_json = []
     main_tupl = {'boards': []}
@@ -54,6 +54,13 @@ def board():
     main_tupl['boards'].append(temp_tupl)
     # vote_json.append(temp_tupl)
     return jsonify(main_tupl)
+
+
+@app.route("/save_boards", methods=['POST'])
+def save_boards():
+    x = request.form['id']
+    print(x*50)
+    return 'a'
 
 
 def main():

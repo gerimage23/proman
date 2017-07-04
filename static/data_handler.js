@@ -11,10 +11,10 @@ app.dataHandler = {
         // some test data, like the ones you find in sample_data.json
     },
     loadBoards: function(callback) {
-        // loads data from local storage to this.boards property
-        var dataObj = {};
+        // sends an AJAX request to a Flask endpoint and gets back
+        // a JSON as response which than uses to fill app.dataHandler.boards
         $.ajax({
-            url: '/board',
+            url: '/load_boards',
             type: 'GET',
             dataType: 'json',
             success: function(response) {
@@ -27,8 +27,22 @@ app.dataHandler = {
         });
     },
     saveBoards: function() {
-        // saves data to local storage from this.boards property
-        localStorage.setItem('boards', JSON.stringify(this.boards));
+        var dataObject = app.dataHandler.boards;
+        debugger;
+        $.ajax({
+            url: '/save_boards',
+            type: 'POST',
+            data: dataObject,
+            dataType: 'json',
+            success: function(response) {
+                alert(response);
+                debugger;
+            },
+            error: function(error) {
+                alert(error); // If there is an error we log it on the console.
+                debugger;
+            }
+        });
     },
     getBoard: function(boardId) {
         // returns the board with the given id from this.boards
@@ -44,7 +58,7 @@ app.dataHandler = {
     createNewBoard: function(boardTitle) {
         //we should write some switch for this
         //app.dataHandler.loadTestBoards();
-        app.dataHandler.loadBoards();
+        app.dataHandler.loadBoards(function() {
         var board_list = app.dataHandler.boards;
         // add new id ???
         var skeletonObject = { id: 666, title: 'SATAN', state: 'active', cards: []};
@@ -58,12 +72,12 @@ app.dataHandler = {
             board_list = [skeletonObject,];
         }
         app.dataHandler.boards = board_list;
-
+        })
     },
 
     createNewCard: function(boardId, cardTitle) {
         // creates new card in the given board, saves it and returns its id
-        app.dataHandler.loadBoards();
+        app.dataHandler.loadBoards(function() {
         var board_list = app.dataHandler.boards;
         var skeletonCard = { 
             id: 'spooky', 
@@ -80,7 +94,7 @@ app.dataHandler = {
         }
         
         app.dataHandler.boards = board_list;
-
+        });
     },
     // here can come another features
     editCard: function(boardId, cardId, cardProperty, newCardContent) {
@@ -100,17 +114,6 @@ app.dataHandler = {
         app.dom.showCards(boardId);
     },
 
-    chooseBoards: function() {
-       // debugger;
-       this.boards = [];
-       //app.dataHandler.loadTestBoards()
-       app.dataHandler.loadBoards()
-       /*if ($('#settings-button').text() === 'dev') {
-           app.dataHandler.loadTestBoards();
-       } else if ($('#settings-button').text() === 'prod') {
-           app.dataHandler.loadBoards();
-       }*/
-   },
 
     min_or_max_Object: function(originObject,orderKey,direction) {
         var val_index = 0;
