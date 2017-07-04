@@ -10,15 +10,16 @@ app.dataHandler = {
         this.boards = JSON.parse(myJSON).boards;
         // some test data, like the ones you find in sample_data.json
     },
-    loadBoards: function() {
+    loadBoards: function(callback) {
         // loads data from local storage to this.boards property
+        var dataObj = {};
         $.ajax({
             url: '/board',
-            type: 'POST',
-            data: dataObj,
-            dataType: json,
+            type: 'GET',
+            dataType: 'json',
             success: function(response) {
-                this.boards = JSON.parse(dataObj).boards;; // After succesful request we notify the user with line got from the Flask /votePlanet handler.
+                app.dataHandler.boards = response.boards;
+                callback();
             },
             error: function(error) {
                 console.log(error); // If there is an error we log it on the console.
@@ -100,12 +101,15 @@ app.dataHandler = {
     },
 
     chooseBoards: function() {
+       // debugger;
        this.boards = [];
-       if ($('#settings-button').text() === 'dev') {
+       //app.dataHandler.loadTestBoards()
+       app.dataHandler.loadBoards()
+       /*if ($('#settings-button').text() === 'dev') {
            app.dataHandler.loadTestBoards();
        } else if ($('#settings-button').text() === 'prod') {
            app.dataHandler.loadBoards();
-       }
+       }*/
    },
 
     min_or_max_Object: function(originObject,orderKey,direction) {

@@ -41,19 +41,18 @@ def board():
         temp_tupl['id'] = stat[i][0]
         temp_tupl['title'] = stat[i][1]
         temp_tupl['state'] = stat[i][2]
-        temp_tupl['user_id'] = stat[i][3]
         temp_tupl['cards'] = []
         cards = execute_sql_statement("SELECT id, title, status, card_order FROM cards WHERE board_id=" + str(stat[i][0]))
         print(cards)
         for j in range(len(cards)):
             temp_cards_tupl = {}
+            temp_cards_tupl['order'] = cards[j][3]
             temp_cards_tupl['id'] = cards[j][0]
             temp_cards_tupl['title'] = cards[j][1]
             temp_cards_tupl['status'] = cards[j][2]
-            temp_cards_tupl['card_order'] = cards[j][3]
             temp_tupl['cards'].append(temp_cards_tupl)
     main_tupl['boards'].append(temp_tupl)
-    #vote_json.append(temp_tupl)
+    # vote_json.append(temp_tupl)
     return jsonify(main_tupl)
 
 

@@ -18,13 +18,15 @@ app.dom = {
         if ($('.detailed-board'))
             $('.detailed-board').hide();
         // using the boards data it creates the boards
-        app.dataHandler.chooseBoards();
-        var board_list = app.dataHandler.boards;
-        if (board_list) {
-            for (var i = 0; i < board_list.length; i++) {
-            $('#boards').append("<div class='board_title col-xs-3 col-xs-offset-1 col-md-3 col-md-offset-1'>"+board_list[i].title+"<div class='board_id'>"+board_list[i].id+"</div></div>");
+        app.dataHandler.loadBoards(function() {
+            var board_list = app.dataHandler.boards;
+            if (board_list) {
+                for (var i = 0; i < board_list.length; i++) {
+                $('#boards').append("<div class='board_title col-xs-3 col-xs-offset-1 col-md-3 col-md-offset-1'>"+board_list[i].title+"<div class='board_id'>"+board_list[i].id+"</div></div>");
+                }
             }
-        }
+        });
+
     },
 
 
