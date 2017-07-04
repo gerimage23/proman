@@ -11,8 +11,19 @@ app.dataHandler = {
         // some test data, like the ones you find in sample_data.json
     },
     loadBoards: function() {
-        this.boards = JSON.parse(localStorage.getItem('boards'));
         // loads data from local storage to this.boards property
+        $.ajax({
+            url: '/board',
+            type: 'POST',
+            data: dataObj,
+            dataType: json,
+            success: function(response) {
+                this.boards = JSON.parse(dataObj).boards;; // After succesful request we notify the user with line got from the Flask /votePlanet handler.
+            },
+            error: function(error) {
+                console.log(error); // If there is an error we log it on the console.
+            }
+        });
     },
     saveBoards: function() {
         // saves data to local storage from this.boards property
