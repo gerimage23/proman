@@ -17,7 +17,7 @@ def register_user():
     password = request.form["password"]
     if datahandler.insert_user(username, password):
         session['username'] = username
-        return redirect(url_for('hello'))
+        return render_template('index.html', username=username)
     else:
         return render_template('form.html', act="Register", errormsg="Username already exists!")
 
@@ -25,6 +25,11 @@ def register_user():
 @app.route("/login")
 def login_page():
     return render_template('form.html', act="Login")
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('hello'))
 
 
 @app.route("/login-user", methods=["POST"])

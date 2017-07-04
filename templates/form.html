@@ -1,30 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
-    <title>Proman Registration</title>
-</head>
-<body>
-    <div class="container form-container">
-        <div class="col-md-6 form-col" align="center">
-            <h1>{{act}}</h1>
-            {% if errormsg %}
-            <div class="alert alert-danger">
-                <strong>{{errormsg}}</strong>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+        <title>Proman Registration</title>
+    </head>
+    <body>
+        <div class="row centered-form">
+            <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h1 class="panel-title" align="center"><font size="6">{{ act }}</font></h1>
+                    </div>
+                    {% if errormsg %}
+                    <div class="alert alert-danger">
+                        <strong>{{ errormsg }}</strong>
+                    </div>
+                    {% endif %}
+                        <div class="panel-body" align="center">
+                            <form role="form" action="{{'/register-user' if act == 'Register' else '/login-user'}}" method="POST">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="username" id="username" class="form-control" placeholder="Enter your username...">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password...">
+                                        </div>
+                                    </div>
+                                </div>    
+                                <input type="submit" value="{{'Register' if act=='Register' else 'Login'}}" class="btn btn-primary" id="submit-reg-button">
+                            
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {% endif %}
-            <form action="{{'/register-user' if act == 'Register' else '/login-user'}}" align="center" method="POST">
-                <h4>Username</h4>
-                <input type="text" id="username" name="username" placeholder="Enter your username..."><br>
-                <h4>Password</h4>                
-                <input type="password" id="password" name="password" placeholder="Enter your password...">
-                <input type="submit" value="{{'Register' if act=='Register' else 'Login'}}" class="btn btn-primary" id="submit-reg-button">
-            </form>
-        </div>
-    </div>
-</body>
+    </body>
 </html>

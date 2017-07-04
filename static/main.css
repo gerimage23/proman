@@ -224,11 +224,14 @@ footer p{
     color: #3f6c6b;
 }
 
-h1 {
+.page-header.text-center {
     text-shadow: 1px 1px;
 }
 
-#inner{
-    margin: auto;
-    position: relative;
+.panel-heading{
+    background-color: #c1502e;
+}
+
+.panel-body{
+    background-color: grey;
 }
