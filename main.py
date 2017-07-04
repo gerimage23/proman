@@ -8,7 +8,7 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 @app.route("/register")
 def render_form_page():
-    return render_template('form.html')
+    return render_template('form.html', act="Register")
 
 
 @app.route("/register-user", methods=["POST"])
@@ -19,7 +19,23 @@ def register_user():
         session['username'] = username
         return redirect(url_for('hello'))
     else:
-        return render_template('form.html', errormsg="Username already exists!")
+        return render_template('form.html', act="Register", errormsg="Username already exists!")
+
+
+@app.route("/login")
+def login_page():
+    return render_template('form.html', act="Login")
+
+
+@app.route("/login-user", methods=["POST"])
+def user_login():
+    username = request.form['username']
+    password = request.form['password']
+    if datahandler.check_user(username, password):
+        session['username'] = username
+        return render_template('index.html', username=username)
+    return render_template('form.html', act="Login",
+                           errormsg="Invalid Username/Password combination provided.")
 
 
 @app.route("/")

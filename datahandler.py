@@ -48,3 +48,25 @@ def insert_user(username, password):
     except psycopg2.DatabaseError as e:
         print(e)
         return False
+
+
+def check_user(username, password):
+        try:
+            cursor = init_db_connection(connection_string=CONNECTION_URL)
+            cursor.execute("""SELECT username, password
+                            FROM users
+                            WHERE username=%s;""", (username,))
+
+            try:
+                results = cursor.fetchall()[0]
+
+            except IndexError as e:
+                print(e)
+                return False
+
+            if username == username and security.check_password_hash(results[1], password):
+                return True
+
+        except Exception as e:
+            print(e)
+            return [[e]]

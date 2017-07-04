@@ -10,18 +10,19 @@
 </head>
 <body>
     <div class="container form-container">
-        <div class="col-md-6 form-col">
+        <div class="col-md-6 form-col" align="center">
+            <h1>{{act}}</h1>
             {% if errormsg %}
             <div class="alert alert-danger">
                 <strong>{{errormsg}}</strong>
             </div>
             {% endif %}
-            <form action="/register-user" method="POST">
+            <form action="{{'/register-user' if act == 'Register' else '/login-user'}}" align="center" method="POST">
                 <h4>Username</h4>
                 <input type="text" id="username" name="username" placeholder="Enter your username..."><br>
                 <h4>Password</h4>                
                 <input type="password" id="password" name="password" placeholder="Enter your password...">
-                <input type="submit" value="Register" class="btn btn-primary" id="submit-reg-button">
+                <input type="submit" value="{{'Register' if act=='Register' else 'Login'}}" class="btn btn-primary" id="submit-reg-button">
             </form>
         </div>
     </div>
