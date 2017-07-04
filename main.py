@@ -31,6 +31,22 @@ def users():
     return jsonify(main_tupl)
 
 
+@app.route("/board", methods=['GET'])
+def board():
+    stat = execute_sql_statement("SELECT id, title, state, user_id FROM boards")
+    vote_json = []
+    main_tupl = {'boards': []}
+    for i in range(len(stat)):
+        temp_tupl = {}
+        temp_tupl['id'] = stat[i][0]
+        temp_tupl['title'] = stat[i][1]
+        temp_tupl['state'] = stat[i][2]
+        temp_tupl['user_id'] = stat[i][3]
+        main_tupl['boards'].append(temp_tupl)
+    #vote_json.append(temp_tupl)
+    return jsonify(main_tupl)
+
+
 def main():
     app.run(debug=True)
 
