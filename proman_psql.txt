@@ -1,0 +1,30 @@
+CREATE TABLE users
+(
+  id serial primary key,
+  username VARCHAR(255) unique,
+  password VARCHAR(255),
+  lastlog_time timestamp without time zone
+);
+
+CREATE TABLE boards
+(
+  id serial primary key,
+  title VARCHAR(255),
+  state VARCHAR(255),
+  user_id integer REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE cards
+(
+  id serial primary key,
+  title VARCHAR(255),
+  status VARCHAR(255),
+  card_order integer,
+  board_id integer REFERENCES boards(id) ON DELETE CASCADE
+);
+
+--- Dummy datas
+INSERT INTO users(username,password) VALUES ('troll', 'pbkdf2:sha256:50000$biDaK9bJ$42b7847d802760a926cf9bef7ef8ac81263a0797c9523648accbc4eac5b6e756');
+INSERT INTO boards(title,state,user_id) VALUES ('Test 1','TODO',1),('Test 2','TODO',1);
+INSERT INTO cards(title,status,card_order,board_id) VALUES ('CARD 1','review',1,1),('CARD 2','done',2,1),('CARD 3','done',3,1),('CARD 4','review',4,1);
+INSERT INTO cards(title,status,card_order,board_id) VALUES ('CARD 2.1','review',1,2),('CARD 2.2','done',2,2),('CARD 2.3','done',3,2),('CARD 2.4','review',4,2);
