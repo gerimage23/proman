@@ -7,5 +7,5 @@ app.init = function() {
     app.dom.showBoards();
     app.dom.mainListener();
 }
-
+  
 app.init();
