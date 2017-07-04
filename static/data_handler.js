@@ -28,19 +28,15 @@ app.dataHandler = {
     },
     saveBoards: function() {
         var dataObject = app.dataHandler.boards;
-        debugger;
         $.ajax({
             url: '/save_boards',
             type: 'POST',
             data: dataObject,
-            dataType: 'json',
             success: function(response) {
                 alert(response);
-                debugger;
             },
             error: function(error) {
                 alert(error); // If there is an error we log it on the console.
-                debugger;
             }
         });
     },

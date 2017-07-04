@@ -58,9 +58,9 @@ def load_boards():
 
 @app.route("/save_boards", methods=['POST'])
 def save_boards():
-    x = request.form['id']
-    print(x*50)
-    return 'a'
+    x = request.form.viewkeys()
+    print('\n', x, '\n')
+    return 'yEAH! sUCCES'
 
 
 def main():
