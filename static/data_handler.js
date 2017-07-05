@@ -36,11 +36,11 @@ app.dataHandler = {
             dataType: "json",
             data: JSON.stringify(dataObject),
             success: function(response) {
-                alert(response);
+                console.log('SAVE succes' + JSON.stringify(response));
                 callback();
             },
             error: function(error) {
-                alert(error); // If there is an error we log it on the console.
+                console.log('SAVE error' + JSON.stringify(error)); // If there is an error we log it on the console.
             }
         });
     },
@@ -56,41 +56,18 @@ app.dataHandler = {
     },
 
     createNewBoard: function(boardTitle, callback) {
-        //we should write some switch for this
-        //app.dataHandler.loadTestBoards();
-
-        // AJAX RQST -> boardTitle
-
-        // $.post('/create_board', {"boardTitle": boardTitle}).onload(callback());
-
         $.ajax({
             url: '/create_board',
             type: 'POST',
             data: {"boardTitle": boardTitle},
             success: function(response) {
-                alert(response);
+                console.log('NEW BOARD' + JSON.stringify(response));
                 callback();
             },
             error: function(error) {
                 console.log(error); // If there is an error we log it on the console.
             }
         });
-
-        // app.dataHandler.loadBoards(function() {
-        // var board_list = app.dataHandler.boards;
-        // // add new id ???
-        // var skeletonObject = { id: 666, title: 'SATAN', state: 'active', cards: []};
-        // skeletonObject.title = boardTitle;
-        // // CHANGE THIS WHEN WE START TO DELETE THE BOARDS OR WHEN WE DIE
-        // if (board_list) {
-        //     skeletonObject.id = board_list.length + 1;
-        //     board_list.push(skeletonObject);
-        // } else {
-        //     skeletonObject.id = 1;
-        //     board_list = [skeletonObject,];
-        // }
-        // app.dataHandler.boards = board_list;
-        // })
     },
 
     createNewCard: function(boardId, cardTitle, callback) {
@@ -101,36 +78,17 @@ app.dataHandler = {
             type: 'POST',
             data: {"boardId": boardId, "cardTitle": cardTitle},
             success: function(response) {
-                alert(response);
+                console.log('CREATE CARD' + JSON.stringify(response));
                 callback();
             },
             error: function(error) {
                 console.log(error); // If there is an error we log it on the console.
             }
         });
-        //app.dataHandler.loadBoards(function() {
-        //    var board_list = app.dataHandler.boards;
-        //    var skeletonCard = { 
-        //        id: 'spooky', 
-        //        title: cardTitle, 
-        //        status: 'new', 
-        //        order: 66 // TO DO !!! ?!?!?!
-        //    };        
-        //    skeletonCard.id = app.dataHandler.numberOfCards() + 1;
-        //    
-        //    if (app.dataHandler.getBoard(boardId).cards) {
-        //        app.dataHandler.getBoard(boardId).cards.push(skeletonCard);
-        //    } else {
-        //        app.dataHandler.getBoard(boardId).cards = [skeletonCard,];
-        //    }
-        //    
-        //    app.dataHandler.boards = board_list;
-        //});
     },
     // here can come another features
-    editCard: function(boardId, cardId, cardProperty, newCardContent) {
+    editCard: function(boardId, cardId, cardProperty, newCardContent, callback) {
         for (var i = 0; i < this.getBoard(boardId).cards.length; i++) { 
-            var g = this.getBoard(boardId).cards[i].id;
             if (this.getBoard(boardId).cards[i].id === Number(cardId)) {
                 if (cardProperty === 'title') {
                     this.getBoard(boardId).cards[i].title = newCardContent;
@@ -141,9 +99,6 @@ app.dataHandler = {
                 }
             }
         }
-        app.dataHandler.saveBoards(function() {
-            app.dom.showCards(boardId);
-        });
     },
 
 

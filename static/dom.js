@@ -59,9 +59,13 @@ app.dom = {
             var boardId = $('#detailed-board-id').text();
             var cardId = $(this).next().text()
             var newCardContent = prompt($(this).text());
-          
             if (newCardContent)
-                app.dataHandler.editCard(boardId, cardId, 'title', newCardContent)
+                app.dataHandler.editCard(boardId, cardId, 'title', newCardContent, function() {
+                            app.dataHandler.saveBoards(function() {
+                                console.log('AAAAAAAAA');
+                                app.dom.showCards(boardId);
+                            });
+                })
         });
         $('#boards').on('click', '.board_title', function() {
             app.dom.showCards($(this).children().text())
@@ -127,8 +131,11 @@ app.dom = {
                     
                     app.dataHandler.editCard(boardId, cardId, "status", newStatus);    
                     app.dataHandler.editCard(boardId, cardId, "order", newOrder);
+                    app.dataHandler.saveBoards(function() {
+                        console.log('Board saved succesfully.');
+                    });
                 }
-            }).disableSelection();        
+            }).disableSelection();
         }); 
     },
 
