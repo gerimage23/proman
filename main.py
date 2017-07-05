@@ -28,7 +28,7 @@ def render_form_page():
 @app.route('/create_board', methods=["POST"])
 def create_board():
     boardTitle = request.form["boardTitle"]
-    username = "troll"
+    username = session["username"]
     userid = datahandler.execute_sql_statement('''SELECT id FROM users WHERE username=%s;''', (username,))[0][0]
     
     datahandler.execute_sql_statement('''INSERT INTO boards(title,state,user_id) VALUES (%s,'NEW',%s);''', (boardTitle, userid))
@@ -62,7 +62,7 @@ def user_login():
     password = request.form['password']
     if datahandler.check_user(username, password):
         session['username'] = username
-        return render_template('index.html', username=username)
+        return redirect(url_for('root'))
     return render_template('form.html', act="Login",
                            errormsg="Invalid Username/Password combination provided.")
 
@@ -101,32 +101,41 @@ def save_boards():
 
 @app.route("/load_boards", methods=['GET'])
 def load_boards():
-    stat = datahandler.execute_sql_statement("SELECT id, title, state, user_id FROM boards")
-    vote_json = []
-    main_tupl = {'boards': []}
-    for i in range(len(stat)):
-        temp_tupl = {}
-        temp_tupl['id'] = stat[i][0]
-        temp_tupl['title'] = stat[i][1]
-        temp_tupl['state'] = stat[i][2]
-        temp_tupl['user_id'] = stat[i][3]
-        temp_tupl['cards'] = []
-        cards = datahandler.execute_sql_statement("SELECT id, title, status, card_order, board_id FROM cards WHERE board_id=" + str(stat[i][0]))
-        for j in range(len(cards)):
-            temp_cards_tupl = {}
-            temp_cards_tupl['id'] = cards[j][0]
-            temp_cards_tupl['title'] = cards[j][1]
-            temp_cards_tupl['status'] = cards[j][2]
-            temp_cards_tupl['order'] = cards[j][3]
-            temp_cards_tupl['board_id'] = cards[j][4]
-            temp_tupl['cards'].append(temp_cards_tupl)
-        main_tupl['boards'].append(temp_tupl)
-    # vote_json.append(temp_tupl)
-    return jsonify(main_tupl)
+    if 'username' in session:
+        username = session['username']
+        userid = datahandler.execute_sql_statement('''SELECT id FROM users WHERE username=%s;''', (username,))[0][0]
+    
+        stat = datahandler.execute_sql_statement("SELECT id, title, state, user_id FROM boards WHERE user_id=%s", (userid,))
+        vote_json = []
+        main_tupl = {'boards': []}
+        for i in range(len(stat)):
+            temp_tupl = {}
+            temp_tupl['id'] = stat[i][0]
+            temp_tupl['title'] = stat[i][1]
+            temp_tupl['state'] = stat[i][2]
+            temp_tupl['user_id'] = stat[i][3]
+            temp_tupl['cards'] = []
+            cards = datahandler.execute_sql_statement("SELECT id, title, status, card_order, board_id FROM cards WHERE board_id=" + str(stat[i][0]))
+            for j in range(len(cards)):
+                temp_cards_tupl = {}
+                temp_cards_tupl['id'] = cards[j][0]
+                temp_cards_tupl['title'] = cards[j][1]
+                temp_cards_tupl['status'] = cards[j][2]
+                temp_cards_tupl['order'] = cards[j][3]
+                temp_cards_tupl['board_id'] = cards[j][4]
+                temp_tupl['cards'].append(temp_cards_tupl)
+            main_tupl['boards'].append(temp_tupl)
+        # vote_json.append(temp_tupl)
+        return jsonify(main_tupl)
+    return redirect(url_for('root'))
 
 
 @app.route("/")
 def root():
+    if 'username' in session:
+        username = session['username']
+        return render_template('index.html', username=username)
+
     return render_template('index.html')
 
 
