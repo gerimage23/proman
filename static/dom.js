@@ -61,7 +61,10 @@ app.dom = {
             var newCardContent = prompt($(this).text());
             if (newCardContent)
                 app.dataHandler.editCard(boardId, cardId, 'title', newCardContent, function() {
-                    app.dom.showCards(boardId);
+                            app.dataHandler.saveBoards(function() {
+                                console.log('AAAAAAAAA');
+                                app.dom.showCards(boardId);
+                            });
                 })
         });
         $('#boards').on('click', '.board_title', function() {
@@ -128,8 +131,11 @@ app.dom = {
                     
                     app.dataHandler.editCard(boardId, cardId, "status", newStatus);    
                     app.dataHandler.editCard(boardId, cardId, "order", newOrder);
+                    app.dataHandler.saveBoards(function() {
+                        console.log('Board saved succesfully.');
+                    });
                 }
-            }).disableSelection();        
+            }).disableSelection();
         }); 
     },
 

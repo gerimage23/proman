@@ -36,11 +36,11 @@ app.dataHandler = {
             dataType: "json",
             data: JSON.stringify(dataObject),
             success: function(response) {
-                alert('SAVE succes' + JSON.stringify(response));
+                console.log('SAVE succes' + JSON.stringify(response));
                 callback();
             },
             error: function(error) {
-                alert('SAVE error' + JSON.stringify(error)); // If there is an error we log it on the console.
+                console.log('SAVE error' + JSON.stringify(error)); // If there is an error we log it on the console.
             }
         });
     },
@@ -61,7 +61,7 @@ app.dataHandler = {
             type: 'POST',
             data: {"boardTitle": boardTitle},
             success: function(response) {
-                alert('NEW BOARD' + JSON.stringify(response));
+                console.log('NEW BOARD' + JSON.stringify(response));
                 callback();
             },
             error: function(error) {
@@ -78,7 +78,7 @@ app.dataHandler = {
             type: 'POST',
             data: {"boardId": boardId, "cardTitle": cardTitle},
             success: function(response) {
-                alert('CREATE CARD' + JSON.stringify(response));
+                console.log('CREATE CARD' + JSON.stringify(response));
                 callback();
             },
             error: function(error) {
@@ -91,7 +91,6 @@ app.dataHandler = {
         for (var i = 0; i < this.getBoard(boardId).cards.length; i++) { 
             if (this.getBoard(boardId).cards[i].id === Number(cardId)) {
                 if (cardProperty === 'title') {
-                    debugger;
                     this.getBoard(boardId).cards[i].title = newCardContent;
                 } else if (cardProperty === 'order') {
                     this.getBoard(boardId).cards[i].order = newCardContent;
@@ -100,9 +99,6 @@ app.dataHandler = {
                 }
             }
         }
-        app.dataHandler.saveBoards(function() {
-            app.dom.showCards(boardId);
-        });
     },
 
 

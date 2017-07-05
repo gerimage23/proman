@@ -17,7 +17,8 @@ def create_card():
     datahandler.execute_sql_statement('''INSERT INTO cards(title, status, card_order, board_id)
                                       VALUES (%s,'new', 99, %s);''',
                                       (cardTitle, boardId))
-    return "yeaa mothafucka"
+    response = {'message': 'succes'}
+    return jsonify(response)
 
 
 @app.route("/register")
@@ -32,7 +33,8 @@ def create_board():
     userid = datahandler.execute_sql_statement('''SELECT id FROM users WHERE username=%s;''', (username,))[0][0]
     
     datahandler.execute_sql_statement('''INSERT INTO boards(title,state,user_id) VALUES (%s,'NEW',%s);''', (boardTitle, userid))
-    return "yeaa mothafucka"
+    response = {'message': 'succes'}
+    return jsonify(response)
 
 
 @app.route("/register-user", methods=["POST"])
