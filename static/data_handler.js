@@ -93,26 +93,39 @@ app.dataHandler = {
         // })
     },
 
-    createNewCard: function(boardId, cardTitle) {
+    createNewCard: function(boardId, cardTitle, callback) {
         // creates new card in the given board, saves it and returns its id
-        app.dataHandler.loadBoards(function() {
-            var board_list = app.dataHandler.boards;
-            var skeletonCard = { 
-                id: 'spooky', 
-                title: cardTitle, 
-                status: 'new', 
-                order: 66 // TO DO !!! ?!?!?!
-            };        
-            skeletonCard.id = app.dataHandler.numberOfCards() + 1;
-            
-            if (app.dataHandler.getBoard(boardId).cards) {
-                app.dataHandler.getBoard(boardId).cards.push(skeletonCard);
-            } else {
-                app.dataHandler.getBoard(boardId).cards = [skeletonCard,];
+         // creates new card in the given board, saves it and returns its id
+        $.ajax({
+            url: '/create_card',
+            type: 'POST',
+            data: {"boardId": boardId, "cardTitle": cardTitle},
+            success: function(response) {
+                alert(response);
+                callback();
+            },
+            error: function(error) {
+                console.log(error); // If there is an error we log it on the console.
             }
-            
-            app.dataHandler.boards = board_list;
         });
+        //app.dataHandler.loadBoards(function() {
+        //    var board_list = app.dataHandler.boards;
+        //    var skeletonCard = { 
+        //        id: 'spooky', 
+        //        title: cardTitle, 
+        //        status: 'new', 
+        //        order: 66 // TO DO !!! ?!?!?!
+        //    };        
+        //    skeletonCard.id = app.dataHandler.numberOfCards() + 1;
+        //    
+        //    if (app.dataHandler.getBoard(boardId).cards) {
+        //        app.dataHandler.getBoard(boardId).cards.push(skeletonCard);
+        //    } else {
+        //        app.dataHandler.getBoard(boardId).cards = [skeletonCard,];
+        //    }
+        //    
+        //    app.dataHandler.boards = board_list;
+        //});
     },
     // here can come another features
     editCard: function(boardId, cardId, cardProperty, newCardContent) {

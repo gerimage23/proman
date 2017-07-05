@@ -43,15 +43,15 @@ app.dom = {
         $('.detailed-board').fadeIn(500);
         // using the boards data it creates the cards
         // on the page, appending them to #cards div
-        var content = app.dataHandler.getBoard(boardId);
-        
-        $('.detailed-board').append("<div id='detailed-board-title'>"+content.title+"</div>");
-        $('.detailed-board').append("<div id='detailed-board-state'>"+content.state+"</div>");
-        $('.detailed-board').append("<div id='detailed-board-id'>"+content.id+"</div>");
-
-        this.generateColumns($('#cards'));
-        var cards = app.dataHandler.orderObject(app.dataHandler.getBoard(boardId).cards,'order','ASC');
-        this.placeCards(cards);
+        app.dataHandler.loadBoards(function(){
+            var content = app.dataHandler.getBoard(boardId);
+            $('.detailed-board').append("<div id='detailed-board-title'>"+content.title+"</div>");
+            $('.detailed-board').append("<div id='detailed-board-state'>"+content.state+"</div>");
+            $('.detailed-board').append("<div id='detailed-board-id'>"+content.id+"</div>");
+            app.dom.generateColumns($('#cards'));
+            var cards = app.dataHandler.orderObject(app.dataHandler.getBoard(boardId).cards,'order','ASC');
+            app.dom.placeCards(cards);
+        });
     },
 
     mainListener: function() {
@@ -83,7 +83,7 @@ app.dom = {
             if (boardTitle) 
             {
                 app.dataHandler.createNewBoard(boardTitle, function() {
-                    app.dom.showCards(boardId);
+                    app.dom.showBoards();
                 });
             }
         });
@@ -92,8 +92,7 @@ app.dom = {
             var boardId = $('#detailed-board-id').text();
             if (cardTitle) 
             {
-                app.dataHandler.createNewCard(boardId, cardTitle);
-                app.dataHandler.saveBoards(function() {
+                app.dataHandler.createNewCard(boardId, cardTitle, function() {
                     app.dom.showCards(boardId);
                 });
             }

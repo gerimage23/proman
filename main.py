@@ -10,6 +10,16 @@ app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'ad76ad987ad98aud98adu9qeqeqadqew'
 
 
+@app.route('/create_card', methods=["POST"])
+def create_card():
+    boardId = request.form["boardId"]
+    cardTitle = request.form["cardTitle"]
+    datahandler.execute_sql_statement('''INSERT INTO cards(title, status, card_order, board_id)
+                          VALUES (%s,'new', 99, %s);''',
+                          (cardTitle, boardId))
+    return "yeaa mothafucka"
+
+
 @app.route("/register")
 def render_form_page():
     return render_template('form.html', act="Register")
