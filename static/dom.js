@@ -59,9 +59,10 @@ app.dom = {
             var boardId = $('#detailed-board-id').text();
             var cardId = $(this).next().text()
             var newCardContent = prompt($(this).text());
-          
             if (newCardContent)
-                app.dataHandler.editCard(boardId, cardId, 'title', newCardContent)
+                app.dataHandler.editCard(boardId, cardId, 'title', newCardContent, function() {
+                    app.dom.showCards(boardId);
+                })
         });
         $('#boards').on('click', '.board_title', function() {
             app.dom.showCards($(this).children().text())
