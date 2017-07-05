@@ -26,14 +26,17 @@ app.dataHandler = {
             }
         });
     },
-    saveBoards: function() {
+    saveBoards: function(callback) {
         var dataObject = app.dataHandler.boards;
         $.ajax({
             url: '/save_boards',
             type: 'POST',
-            data: dataObject,
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(dataObject),
             success: function(response) {
                 alert(response);
+                callback();
             },
             error: function(error) {
                 alert(error); // If there is an error we log it on the console.
@@ -51,45 +54,63 @@ app.dataHandler = {
         }
     },
 
-    createNewBoard: function(boardTitle) {
+    createNewBoard: function(boardTitle, callback) {
         //we should write some switch for this
         //app.dataHandler.loadTestBoards();
-        app.dataHandler.loadBoards(function() {
-        var board_list = app.dataHandler.boards;
-        // add new id ???
-        var skeletonObject = { id: 666, title: 'SATAN', state: 'active', cards: []};
-        skeletonObject.title = boardTitle;
-        // CHANGE THIS WHEN WE START TO DELETE THE BOARDS OR WHEN WE DIE
-        if (board_list) {
-            skeletonObject.id = board_list.length + 1;
-            board_list.push(skeletonObject);
-        } else {
-            skeletonObject.id = 1;
-            board_list = [skeletonObject,];
-        }
-        app.dataHandler.boards = board_list;
-        })
+
+        // AJAX RQST -> boardTitle
+
+        // $.post('/create_board', {"boardTitle": boardTitle}).onload(callback());
+
+        $.ajax({
+            url: '/create_board',
+            type: 'POST',
+            data: {"boardTitle": boardTitle},
+            success: function(response) {
+                alert(response);
+                callback();
+            },
+            error: function(error) {
+                console.log(error); // If there is an error we log it on the console.
+            }
+        });
+
+        // app.dataHandler.loadBoards(function() {
+        // var board_list = app.dataHandler.boards;
+        // // add new id ???
+        // var skeletonObject = { id: 666, title: 'SATAN', state: 'active', cards: []};
+        // skeletonObject.title = boardTitle;
+        // // CHANGE THIS WHEN WE START TO DELETE THE BOARDS OR WHEN WE DIE
+        // if (board_list) {
+        //     skeletonObject.id = board_list.length + 1;
+        //     board_list.push(skeletonObject);
+        // } else {
+        //     skeletonObject.id = 1;
+        //     board_list = [skeletonObject,];
+        // }
+        // app.dataHandler.boards = board_list;
+        // })
     },
 
     createNewCard: function(boardId, cardTitle) {
         // creates new card in the given board, saves it and returns its id
         app.dataHandler.loadBoards(function() {
-        var board_list = app.dataHandler.boards;
-        var skeletonCard = { 
-            id: 'spooky', 
-            title: cardTitle, 
-            status: 'new', 
-            order: 66 // TO DO !!! ?!?!?!
-        };        
-        skeletonCard.id = app.dataHandler.numberOfCards() + 1;
-        
-        if (this.getBoard(boardId).cards) {
-            this.getBoard(boardId).cards.push(skeletonCard);
-        } else {
-            this.getBoard(boardId).cards = [skeletonCard,];
-        }
-        
-        app.dataHandler.boards = board_list;
+            var board_list = app.dataHandler.boards;
+            var skeletonCard = { 
+                id: 'spooky', 
+                title: cardTitle, 
+                status: 'new', 
+                order: 66 // TO DO !!! ?!?!?!
+            };        
+            skeletonCard.id = app.dataHandler.numberOfCards() + 1;
+            
+            if (app.dataHandler.getBoard(boardId).cards) {
+                app.dataHandler.getBoard(boardId).cards.push(skeletonCard);
+            } else {
+                app.dataHandler.getBoard(boardId).cards = [skeletonCard,];
+            }
+            
+            app.dataHandler.boards = board_list;
         });
     },
     // here can come another features
@@ -106,8 +127,9 @@ app.dataHandler = {
                 }
             }
         }
-        app.dataHandler.saveBoards();
-        app.dom.showCards(boardId);
+        app.dataHandler.saveBoards(function() {
+            app.dom.showCards(boardId);
+        });
     },
 
 
