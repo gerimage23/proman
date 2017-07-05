@@ -10,24 +10,39 @@ app.dataHandler = {
         this.boards = JSON.parse(myJSON).boards;
         // some test data, like the ones you find in sample_data.json
     },
-    loadBoards: function() {
-        // loads data from local storage to this.boards property
+
+    loadBoards: function(callback) {
+        // sends an AJAX request to a Flask endpoint and gets back
+        // a JSON as response which than uses to fill app.dataHandler.boards
         $.ajax({
-            url: '/board',
-            type: 'POST',
-            data: dataObj,
-            dataType: json,
+            url: '/load_boards',
+            type: 'GET',
+            dataType: 'json',
             success: function(response) {
-                this.boards = JSON.parse(dataObj).boards;; // After succesful request we notify the user with line got from the Flask /votePlanet handler.
+                app.dataHandler.boards = response.boards;
+                callback();
             },
             error: function(error) {
                 console.log(error); // If there is an error we log it on the console.
             }
         });
     },
-    saveBoards: function() {
-        // saves data to local storage from this.boards property
-        localStorage.setItem('boards', JSON.stringify(this.boards));
+    saveBoards: function(callback) {
+        var dataObject = app.dataHandler.boards;
+        $.ajax({
+            url: '/save_boards',
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(dataObject),
+            success: function(response) {
+                alert(response);
+                callback();
+            },
+            error: function(error) {
+                alert(error); // If there is an error we log it on the console.
+            }
+        });
     },
     getBoard: function(boardId) {
         // returns the board with the given id from this.boards
@@ -40,46 +55,64 @@ app.dataHandler = {
         }
     },
 
-    createNewBoard: function(boardTitle) {
+    createNewBoard: function(boardTitle, callback) {
         //we should write some switch for this
         //app.dataHandler.loadTestBoards();
-        app.dataHandler.loadBoards();
-        var board_list = app.dataHandler.boards;
-        // add new id ???
-        var skeletonObject = { id: 666, title: 'SATAN', state: 'active', cards: []};
-        skeletonObject.title = boardTitle;
-        // CHANGE THIS WHEN WE START TO DELETE THE BOARDS OR WHEN WE DIE
-        if (board_list) {
-            skeletonObject.id = board_list.length + 1;
-            board_list.push(skeletonObject);
-        } else {
-            skeletonObject.id = 1;
-            board_list = [skeletonObject,];
-        }
-        app.dataHandler.boards = board_list;
 
+        // AJAX RQST -> boardTitle
+
+        // $.post('/create_board', {"boardTitle": boardTitle}).onload(callback());
+
+        $.ajax({
+            url: '/create_board',
+            type: 'POST',
+            data: {"boardTitle": boardTitle},
+            success: function(response) {
+                alert(response);
+                callback();
+            },
+            error: function(error) {
+                console.log(error); // If there is an error we log it on the console.
+            }
+        });
+
+        // app.dataHandler.loadBoards(function() {
+        // var board_list = app.dataHandler.boards;
+        // // add new id ???
+        // var skeletonObject = { id: 666, title: 'SATAN', state: 'active', cards: []};
+        // skeletonObject.title = boardTitle;
+        // // CHANGE THIS WHEN WE START TO DELETE THE BOARDS OR WHEN WE DIE
+        // if (board_list) {
+        //     skeletonObject.id = board_list.length + 1;
+        //     board_list.push(skeletonObject);
+        // } else {
+        //     skeletonObject.id = 1;
+        //     board_list = [skeletonObject,];
+        // }
+        // app.dataHandler.boards = board_list;
+        // })
     },
 
     createNewCard: function(boardId, cardTitle) {
         // creates new card in the given board, saves it and returns its id
-        app.dataHandler.loadBoards();
-        var board_list = app.dataHandler.boards;
-        var skeletonCard = { 
-            id: 'spooky', 
-            title: cardTitle, 
-            status: 'new', 
-            order: 66 // TO DO !!! ?!?!?!
-        };        
-        skeletonCard.id = app.dataHandler.numberOfCards() + 1;
-        
-        if (this.getBoard(boardId).cards) {
-            this.getBoard(boardId).cards.push(skeletonCard);
-        } else {
-            this.getBoard(boardId).cards = [skeletonCard,];
-        }
-        
-        app.dataHandler.boards = board_list;
-
+        app.dataHandler.loadBoards(function() {
+            var board_list = app.dataHandler.boards;
+            var skeletonCard = { 
+                id: 'spooky', 
+                title: cardTitle, 
+                status: 'new', 
+                order: 66 // TO DO !!! ?!?!?!
+            };        
+            skeletonCard.id = app.dataHandler.numberOfCards() + 1;
+            
+            if (app.dataHandler.getBoard(boardId).cards) {
+                app.dataHandler.getBoard(boardId).cards.push(skeletonCard);
+            } else {
+                app.dataHandler.getBoard(boardId).cards = [skeletonCard,];
+            }
+            
+            app.dataHandler.boards = board_list;
+        });
     },
     // here can come another features
     editCard: function(boardId, cardId, cardProperty, newCardContent) {
@@ -95,18 +128,11 @@ app.dataHandler = {
                 }
             }
         }
-        app.dataHandler.saveBoards();
-        app.dom.showCards(boardId);
+        app.dataHandler.saveBoards(function() {
+            app.dom.showCards(boardId);
+        });
     },
 
-    chooseBoards: function() {
-       this.boards = [];
-       if ($('#settings-button').text() === 'dev') {
-           app.dataHandler.loadTestBoards();
-       } else if ($('#settings-button').text() === 'prod') {
-           app.dataHandler.loadBoards();
-       }
-   },
 
     min_or_max_Object: function(originObject,orderKey,direction) {
         var val_index = 0;

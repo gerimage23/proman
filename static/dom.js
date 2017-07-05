@@ -18,13 +18,15 @@ app.dom = {
         if ($('.detailed-board'))
             $('.detailed-board').hide();
         // using the boards data it creates the boards
-        app.dataHandler.chooseBoards();
-        var board_list = app.dataHandler.boards;
-        if (board_list) {
-            for (var i = 0; i < board_list.length; i++) {
-            $('#boards').append("<div class='board_title col-xs-3 col-xs-offset-1 col-md-3 col-md-offset-1'>"+board_list[i].title+"<div class='board_id'>"+board_list[i].id+"</div></div>");
+        app.dataHandler.loadBoards(function() {
+            var board_list = app.dataHandler.boards;
+            if (board_list) {
+                for (var i = 0; i < board_list.length; i++) {
+                $('#boards').append("<div class='board_title col-xs-3 col-xs-offset-1 col-md-3 col-md-offset-1'>"+board_list[i].title+"<div class='board_id'>"+board_list[i].id+"</div></div>");
+                }
             }
-        }
+        });
+
     },
 
 
@@ -80,9 +82,9 @@ app.dom = {
             var boardTitle = prompt('Please add a new board title');
             if (boardTitle) 
             {
-                app.dataHandler.createNewBoard(boardTitle);
-                app.dataHandler.saveBoards();
-                app.dom.showBoards();
+                app.dataHandler.createNewBoard(boardTitle, function() {
+                    app.dom.showCards(boardId);
+                });
             }
         });
         $('#create-new-card').on('click', function(){
@@ -91,8 +93,9 @@ app.dom = {
             if (cardTitle) 
             {
                 app.dataHandler.createNewCard(boardId, cardTitle);
-                app.dataHandler.saveBoards();
-                app.dom.showCards(boardId);
+                app.dataHandler.saveBoards(function() {
+                    app.dom.showCards(boardId);
+                });
             }
         });
     },
