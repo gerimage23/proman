@@ -19,9 +19,9 @@ def render_form_page():
 def create_board():
     boardTitle = request.form["boardTitle"]
     username = "troll"
-    userid = execute_sql_statement('''SELECT id FROM users WHERE username=%s;''', (username,))[0][0]
+    userid = datahandler.execute_sql_statement('''SELECT id FROM users WHERE username=%s;''', (username,))[0][0]
     
-    execute_sql_statement('''INSERT INTO boards(title,state,user_id) VALUES (%s,'NEW',%s);''', (boardTitle, userid))
+    datahandler.execute_sql_statement('''INSERT INTO boards(title,state,user_id) VALUES (%s,'NEW',%s);''', (boardTitle, userid))
     return "yeaa mothafucka"
 
 
@@ -77,16 +77,42 @@ def save_boards():
             _order = card['order']
             _boardid = card['board_id']
 
-            execute_sql_statement('''
+            datahandler.execute_sql_statement('''
                                   UPDATE cards SET title=%s, status=%s, card_order=%s, board_id=%s
                                   WHERE id = %s;''',
                                   (_cardtitle, _status, _order, _boardid, _cardid))
         
-        execute_sql_statement('''
+        datahandler.execute_sql_statement('''
                               UPDATE boards SET title=%s, state=%s, user_id=%s
                               WHERE id = %s;''', (_title, _state, _userid, _id))
 
     return 'yEAH! sUCCES'
+
+
+@app.route("/load_boards", methods=['GET'])
+def load_boards():
+    stat = datahandler.execute_sql_statement("SELECT id, title, state, user_id FROM boards")
+    vote_json = []
+    main_tupl = {'boards': []}
+    for i in range(len(stat)):
+        temp_tupl = {}
+        temp_tupl['id'] = stat[i][0]
+        temp_tupl['title'] = stat[i][1]
+        temp_tupl['state'] = stat[i][2]
+        temp_tupl['user_id'] = stat[i][3]
+        temp_tupl['cards'] = []
+        cards = datahandler.execute_sql_statement("SELECT id, title, status, card_order, board_id FROM cards WHERE board_id=" + str(stat[i][0]))
+        for j in range(len(cards)):
+            temp_cards_tupl = {}
+            temp_cards_tupl['id'] = cards[j][0]
+            temp_cards_tupl['title'] = cards[j][1]
+            temp_cards_tupl['status'] = cards[j][2]
+            temp_cards_tupl['order'] = cards[j][3]
+            temp_cards_tupl['board_id'] = cards[j][4]
+            temp_tupl['cards'].append(temp_cards_tupl)
+        main_tupl['boards'].append(temp_tupl)
+    # vote_json.append(temp_tupl)
+    return jsonify(main_tupl)
 
 
 @app.route("/")
