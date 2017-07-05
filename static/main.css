@@ -172,7 +172,7 @@ footer p{
     display: none;
 }
 
-#project-title{
+.project-title {
     float:right;
     margin-right:20px;
     margin-top: 10px;
@@ -213,9 +213,25 @@ footer p{
     border-top-left-radius: 5px
 }
 
+#settings-button {
+    display: none;
+}
+
 #back-to-root-toot:hover, #create-new-board:hover, #create-new-card:hover, #settings-button:hover {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     background-color: #deeaee;
     color: #3f6c6b;
+}
+
+.page-header.text-center {
+    text-shadow: 1px 1px;
+}
+
+.panel-heading{
+    background-color: #c1502e;
+}
+
+.panel-body{
+    background-color: grey;
 }

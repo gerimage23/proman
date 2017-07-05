@@ -3,11 +3,16 @@ import requests
 from datetime import datetime
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
-from datahandler import execute_sql_statement
+import datahandler
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'ad76ad987ad98aud98adu9qeqeqadqew'
+
+
+@app.route("/register")
+def render_form_page():
+    return render_template('form.html', act="Register")
 
 
 @app.route('/create_board', methods=["POST"])
@@ -20,51 +25,36 @@ def create_board():
     return "yeaa mothafucka"
 
 
-@app.route("/")
-def root():
-    return render_template('index.html')
+@app.route("/register-user", methods=["POST"])
+def register_user():
+    username = request.form["username"]
+    password = request.form["password"]
+    if datahandler.insert_user(username, password):
+        session['username'] = username
+        return render_template('index.html', username=username)
+    else:
+        return render_template('form.html', act="Register", errormsg="Username already exists!")
 
 
-@app.route("/users", methods=['GET'])
-def users():
-    stat = execute_sql_statement("SELECT id, username, password, lastlog_time FROM users order by id")
-    vote_json = []
-    main_tupl = {'users': []}
-    for i in range(len(stat)):
-        temp_tupl = {}
-        temp_tupl['id'] = stat[i][0]
-        temp_tupl['username'] = stat[i][1]
-        temp_tupl['password'] = stat[i][2]
-        temp_tupl['lastlog_time'] = stat[i][3]
-        main_tupl['users'].append(temp_tupl)
-    # vote_json.append(temp_tupl)
-    return jsonify(main_tupl)
+@app.route("/login")
+def login_page():
+    return render_template('form.html', act="Login")
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('root'))
 
 
-@app.route("/load_boards", methods=['GET'])
-def load_boards():
-    stat = execute_sql_statement("SELECT id, title, state, user_id FROM boards")
-    vote_json = []
-    main_tupl = {'boards': []}
-    for i in range(len(stat)):
-        temp_tupl = {}
-        temp_tupl['id'] = stat[i][0]
-        temp_tupl['title'] = stat[i][1]
-        temp_tupl['state'] = stat[i][2]
-        temp_tupl['user_id'] = stat[i][3]
-        temp_tupl['cards'] = []
-        cards = execute_sql_statement("SELECT id, title, status, card_order, board_id FROM cards WHERE board_id=" + str(stat[i][0]))
-        for j in range(len(cards)):
-            temp_cards_tupl = {}
-            temp_cards_tupl['id'] = cards[j][0]
-            temp_cards_tupl['title'] = cards[j][1]
-            temp_cards_tupl['status'] = cards[j][2]
-            temp_cards_tupl['order'] = cards[j][3]
-            temp_cards_tupl['board_id'] = cards[j][4]
-            temp_tupl['cards'].append(temp_cards_tupl)
-        main_tupl['boards'].append(temp_tupl)
-    # vote_json.append(temp_tupl)
-    return jsonify(main_tupl)
+@app.route("/login-user", methods=["POST"])
+def user_login():
+    username = request.form['username']
+    password = request.form['password']
+    if datahandler.check_user(username, password):
+        session['username'] = username
+        return render_template('index.html', username=username)
+    return render_template('form.html', act="Login",
+                           errormsg="Invalid Username/Password combination provided.")
 
 
 @app.route("/save_boards", methods=['POST'])
@@ -97,6 +87,27 @@ def save_boards():
                               WHERE id = %s;''', (_title, _state, _userid, _id))
 
     return 'yEAH! sUCCES'
+
+
+@app.route("/")
+def root():
+    return render_template('index.html')
+
+
+@app.route("/users", methods=['GET'])
+def users():
+    stat = datahandler.execute_sql_statement("SELECT id, username, password, lastlog_time FROM users order by id")
+    vote_json = []
+    main_tupl = {'users': []}
+    for i in range(len(stat)):
+        temp_tupl = {}
+        temp_tupl['id'] = stat[i][0]
+        temp_tupl['username'] = stat[i][1]
+        temp_tupl['password'] = stat[i][2]
+        temp_tupl['lastlog_time'] = stat[i][3]
+        main_tupl['users'].append(temp_tupl)
+    #vote_json.append(temp_tupl)
+    return jsonify(main_tupl)
 
 
 def main():
