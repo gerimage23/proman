@@ -19,8 +19,8 @@ def execute_sql_statement(sql_statement, values=tuple()):
     user = data["connection"]["user"]
     host = data["connection"]["host"]
     password = data["connection"]["password"]
-    connect_str = "dbname="+dbname+" user="+user+" host="+host+" password="+password
-    conn = None
+    connection_string = "dbname="+dbname+" user="+user+" host="+host+" password="+password
+    connection = None
     try:
 
         urllib.parse.uses_netloc.append('postgres')
@@ -82,32 +82,3 @@ def check_user(username, password):
         except Exception as e:
             print(e)
             return [[e]]
-
-        conn = psycopg2.connect(connect_str)
-    except psycopg2.DatabaseError as e:  # TODO don't use this, remember: "raise PythonicError("Errors should never go silently.")
-        print(e)
-        return [[e]]
-    else:
-        conn.autocommit = True
-        cursor = conn.cursor()
-        try:
-            cursor.execute(sql_statement, values)
-        except psycopg2.ProgrammingError as e:
-            print(e)
-            return [[e]]
-        else:
-            if sql_statement.split(' ')[0].lower() == 'select':
-                rows = list(cursor.fetchall())
-                return rows
-    finally:
-        if conn:
-            # conn.commit() leaving it here for future testing to see how it works
-            conn.close()
-
-
-def main():
-    pass
-
-if __name__ == '__main__':
-    main()
-

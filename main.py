@@ -3,7 +3,7 @@ import requests
 from datetime import datetime
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
-from datahandler import execute_sql_statement
+import datahandler
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'memcached'
@@ -33,7 +33,7 @@ def login_page():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return redirect(url_for('hello'))
+    return redirect(url_for('root'))
 
 
 @app.route("/login-user", methods=["POST"])
@@ -54,7 +54,7 @@ def root():
 
 @app.route("/users", methods=['GET'])
 def users():
-    stat = execute_sql_statement("SELECT id, username, password, lastlog_time FROM users order by id")
+    stat = datahandler.execute_sql_statement("SELECT id, username, password, lastlog_time FROM users order by id")
     vote_json = []
     main_tupl = {'users': []}
     for i in range(len(stat)):
