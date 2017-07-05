@@ -87,7 +87,7 @@ app.dataHandler = {
         });
     },
     // here can come another features
-    editCard: function(boardId, cardId, cardProperty, newCardContent, callback) {
+    editCard: function(boardId, cardId, cardProperty, newCardContent) {
         for (var i = 0; i < this.getBoard(boardId).cards.length; i++) { 
             if (this.getBoard(boardId).cards[i].id === Number(cardId)) {
                 if (cardProperty === 'title') {
