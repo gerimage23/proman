@@ -10,6 +10,7 @@ app.dataHandler = {
         this.boards = JSON.parse(myJSON).boards;
         // some test data, like the ones you find in sample_data.json
     },
+
     loadBoards: function(callback) {
         // sends an AJAX request to a Flask endpoint and gets back
         // a JSON as response which than uses to fill app.dataHandler.boards
