@@ -8,7 +8,7 @@ app.dom = {
         // shows #boards div and hides #cards
         $('#boards').fadeIn(500);
         $('#create-new-board').fadeIn(500);
-        $('#settings-button').hide();
+        $('#settings-button').fadeIn(500);
         $('#cards').hide();
         $('#create-new-card').hide();
         $('#back-to-root-toot').hide();

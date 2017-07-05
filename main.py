@@ -10,43 +10,6 @@ app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'ad76ad987ad98aud98adu9qeqeqadqew'
 
 
-@app.route("/register")
-def render_form_page():
-    return render_template('form.html', act="Register")
-
-
-@app.route("/register-user", methods=["POST"])
-def register_user():
-    username = request.form["username"]
-    password = request.form["password"]
-    if datahandler.insert_user(username, password):
-        session['username'] = username
-        return render_template('index.html', username=username)
-    else:
-        return render_template('form.html', act="Register", errormsg="Username already exists!")
-
-
-@app.route("/login")
-def login_page():
-    return render_template('form.html', act="Login")
-
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    return redirect(url_for('hello'))
-
-
-@app.route("/login-user", methods=["POST"])
-def user_login():
-    username = request.form['username']
-    password = request.form['password']
-    if datahandler.check_user(username, password):
-        session['username'] = username
-        return render_template('index.html', username=username)
-    return render_template('form.html', act="Login",
-                           errormsg="Invalid Username/Password combination provided.")
-
-
 @app.route("/")
 def root():
     return render_template('index.html')
