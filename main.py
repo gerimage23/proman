@@ -15,8 +15,8 @@ def create_card():
     boardId = request.form["boardId"]
     cardTitle = request.form["cardTitle"]
     datahandler.execute_sql_statement('''INSERT INTO cards(title, status, card_order, board_id)
-                          VALUES (%s,'new', 99, %s);''',
-                          (cardTitle, boardId))
+                                      VALUES (%s,'new', 99, %s);''',
+                                      (cardTitle, boardId))
     return "yeaa mothafucka"
 
 
@@ -49,6 +49,7 @@ def register_user():
 @app.route("/login")
 def login_page():
     return render_template('form.html', act="Login")
+
 
 @app.route('/logout')
 def logout():
@@ -88,15 +89,16 @@ def save_boards():
             _boardid = card['board_id']
 
             datahandler.execute_sql_statement('''
-                                  UPDATE cards SET title=%s, status=%s, card_order=%s, board_id=%s
-                                  WHERE id = %s;''',
-                                  (_cardtitle, _status, _order, _boardid, _cardid))
+                                              UPDATE cards SET title=%s, status=%s, card_order=%s, board_id=%s
+                                              WHERE id = %s;''',
+                                              (_cardtitle, _status, _order, _boardid, _cardid))
         
         datahandler.execute_sql_statement('''
-                              UPDATE boards SET title=%s, state=%s, user_id=%s
-                              WHERE id = %s;''', (_title, _state, _userid, _id))
+                                          UPDATE boards SET title=%s, state=%s, user_id=%s
+                                          WHERE id = %s;''', (_title, _state, _userid, _id))
 
-    return 'yEAH! sUCCES'
+    response = {'message': 'succes'}
+    return jsonify(response)
 
 
 @app.route("/load_boards", methods=['GET'])
@@ -142,7 +144,7 @@ def users():
         temp_tupl['password'] = stat[i][2]
         temp_tupl['lastlog_time'] = stat[i][3]
         main_tupl['users'].append(temp_tupl)
-    #vote_json.append(temp_tupl)
+    # vote_json.append(temp_tupl)
     return jsonify(main_tupl)
 
 
