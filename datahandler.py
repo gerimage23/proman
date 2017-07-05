@@ -1,3 +1,4 @@
+import json
 import psycopg2
 from werkzeug import security
 import os
@@ -8,9 +9,20 @@ CONNECTION_STRING = "dbname=proman_testdb user=aakeeka host=localhost password=p
 CONNECTION_URL = "postgres://sbcjqryaikuvtq:64ea9d49945ec0b2ba2838400f964055dc138b9334ad3117b258914dc11d6b7b@ec2-54-75-229-201.eu-west-1.compute.amazonaws.com:5432/d1vmbir57f49qf"
 
 
-def init_db_connection(connection_string=CONNECTION_STRING):
+def execute_sql_statement(sql_statement, values=tuple()):
+    # setup connection string, not the most secure way
+ 
+    with open('static/connection.json') as data_file:   
+        data = json.load(data_file)
 
+    dbname = data["connection"]["database"]
+    user = data["connection"]["user"]
+    host = data["connection"]["host"]
+    password = data["connection"]["password"]
+    connect_str = "dbname="+dbname+" user="+user+" host="+host+" password="+password
+    conn = None
     try:
+
         urllib.parse.uses_netloc.append('postgres')
         url = urllib.parse.urlparse(CONNECTION_URL)  # os.environ.get('DATABASE_URL') IF ON HEROKU
 
@@ -70,3 +82,32 @@ def check_user(username, password):
         except Exception as e:
             print(e)
             return [[e]]
+
+        conn = psycopg2.connect(connect_str)
+    except psycopg2.DatabaseError as e:  # TODO don't use this, remember: "raise PythonicError("Errors should never go silently.")
+        print(e)
+        return [[e]]
+    else:
+        conn.autocommit = True
+        cursor = conn.cursor()
+        try:
+            cursor.execute(sql_statement, values)
+        except psycopg2.ProgrammingError as e:
+            print(e)
+            return [[e]]
+        else:
+            if sql_statement.split(' ')[0].lower() == 'select':
+                rows = list(cursor.fetchall())
+                return rows
+    finally:
+        if conn:
+            # conn.commit() leaving it here for future testing to see how it works
+            conn.close()
+
+
+def main():
+    pass
+
+if __name__ == '__main__':
+    main()
+
