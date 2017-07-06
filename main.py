@@ -64,8 +64,12 @@ def user_login():
     username = request.form['username']
     password = request.form['password']
     if datahandler.check_user(username, password):
+        if 'username' in session and session['username'] == username:
+            return render_template('form.html', act='Login', errormsg="That user is already signed in!")
+
         session['username'] = username
         return redirect(url_for('root'))
+
     return render_template('form.html', act="Login",
                            errormsg="Invalid Username/Password combination provided.")
 
