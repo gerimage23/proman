@@ -41,6 +41,10 @@ def create_board():
 def register_user():
     username = request.form["username"]
     password = request.form["password"]
+    pwconfirm = request.form["password-confirm"]
+    if password != pwconfirm:
+        return render_template('form.html', act="Register", errormsg="Passwords don't match!")
+
     if datahandler.insert_user(username, password):
         session['username'] = username
         return render_template('index.html', username=username)
@@ -64,8 +68,12 @@ def user_login():
     username = request.form['username']
     password = request.form['password']
     if datahandler.check_user(username, password):
+        if 'username' in session and session['username'] == username:
+            return render_template('form.html', act='Login', errormsg="That user is already signed in!")
+
         session['username'] = username
         return redirect(url_for('root'))
+
     return render_template('form.html', act="Login",
                            errormsg="Invalid Username/Password combination provided.")
 
