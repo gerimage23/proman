@@ -125,10 +125,39 @@ app.dom = {
                     var child = $(ui.item.children('.card_id'));
                     var cardId = $(child).html();
                     var newStatus = event.target.id.substring("status-".length);
-                    var newOrder = ui.item.index();
-                    
-                    app.dataHandler.editCard(boardId, cardId, "status", newStatus);    
-                    app.dataHandler.editCard(boardId, cardId, "order", newOrder);
+                                       
+                    // check each row
+                    $("#status-new div").each(function(i, elm) {
+                        $elm = $(elm); // cache the jquery object
+                        $orderElement = $elm.children().last()
+                        $orderElement.html($elm.index("#status-new div"));
+                        cId = $elm.children('.card_id').text();
+                        app.dataHandler.editCard(boardId, cId, "order", $elm.index("#status-new div"));
+                    });
+                    $("#status-inprogress div").each(function(i, elm) {
+                        $elm = $(elm); // cache the jquery object
+                        $orderElement = $elm.children().last()
+                        $orderElement.html($elm.index("#status-inprogress div"));
+                        cId = $elm.children('.card_id').text();
+                        app.dataHandler.editCard(boardId, cId, "order", $elm.index("#status-inprogress div"));
+                    });
+                    $("#status-review div").each(function(i, elm) {
+                        $elm = $(elm); // cache the jquery object
+                        $orderElement = $elm.children().last()
+                        $orderElement.html($elm.index("#status-review div"));
+                        cId = $elm.children('.card_id').text();
+                        app.dataHandler.editCard(boardId, cId, "order", $elm.index("#status-review div"));
+                    });
+                    $("#status-done div").each(function(i, elm) {
+                        $elm = $(elm); // cache the jquery object
+                        $orderElement = $elm.children().last()
+                        $orderElement.html($elm.index("#status-done div"));
+                        cId = $elm.children('.card_id').text();
+                        app.dataHandler.editCard(boardId, cId, "order", $elm.index("#status-done div"));
+                    });
+
+                    // edit & save
+                    app.dataHandler.editCard(boardId, cardId, "status", newStatus);   
                     app.dataHandler.saveBoards(function() {
                         console.log('Board saved succesfully.');
                     });
@@ -155,7 +184,7 @@ app.dom = {
                     break;
             }
 
-            destinationElement.append("<div class='col-xs-3 col-md-3 col-lg-3 card draggable'><h4 class='card_title'>"+cards[i].title+"</h4><p class='card_id'>"+cards[i].id+"</p><p class='card_status'>"+cards[i].status+"</p><p>"+cards[i].order+"</p></div>");
+            destinationElement.append("<div class='col-xs-3 col-md-3 col-lg-3 card draggable' id='card_order' ><h4 class='card_title'>"+cards[i].title+"</h4><p class='card_id'>"+cards[i].id+"</p><p class='card_status'>"+cards[i].status+"</p><p class='card_order'>"+cards[i].order+"</p></div>");
             // $('.draggable').draggable();
         }
     }
