@@ -41,6 +41,10 @@ def create_board():
 def register_user():
     username = request.form["username"]
     password = request.form["password"]
+    pwconfirm = request.form["password-confirm"]
+    if password != pwconfirm:
+        return render_template('form.html', act="Register", errormsg="Passwords don't match!")
+
     if datahandler.insert_user(username, password):
         session['username'] = username
         return render_template('index.html', username=username)
