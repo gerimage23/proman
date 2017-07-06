@@ -5,16 +5,12 @@ body{
     background-size: 100%, 100%;
 }
 
-.nav.navbar-nav.pull-left{
-    color: black;
-    text-transform: capitalize;
-    display: inline-block;
-}
 
 li a{
     color: #deeaee;
     font-weight: 600;
     font-size: 150%;
+    text-align: center;
 }
 
 
@@ -26,15 +22,14 @@ h4{
     font-weight: 600;
 }
 
-.header {
+.navbar {
     background-color: #c1502e;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
 
 .container {
-    margin-top: 30px;
-    padding: 10px;
+    padding-top: 10px;
     background-color: #558C89;
     max-width: 970px;
     color: black;
@@ -53,8 +48,8 @@ h4{
     background-color:  #deeaee;
     margin-bottom: 30px;
     box-shadow: 10px, 10px;
-    border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
     }
 
 
@@ -67,13 +62,12 @@ h4{
     word-wrap: break-word;
     padding-right: 10%;
     padding-left: 1%;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-radius: 5px;
 }
 
 .col-md-3{
     border: 1px solid grey;
-    border-radius: 20px;
+    border-radius: 10px;
     text-align: center;
     box-shadow: 3px 3px 1px #888888;
  }
@@ -89,7 +83,10 @@ h4{
     box-shadow: 2px 2px 0px #3f6c6b;
     cursor: pointer;
 }
-
+.board_title:hover {
+    box-shadow: none;
+    border-color: #deeaee;
+}
 .board_id {
     display: none;
 }
@@ -142,11 +139,16 @@ footer p{
     background-color: #c1502e;
     color: #3f6c6b;
     text-align: center;
-    border-radius: 25px;
+    border-radius: 10px;
     box-shadow: 10px, 10px;
     cursor: pointer;
     box-shadow: 0px 3px 2px #888888;
+    word-wrap: break-word;
     }
+.card:hover {
+    box-shadow: none;
+    border-color: #74AFAD;
+}
 
 .card_id {
     background-color: pink;
@@ -154,8 +156,7 @@ footer p{
 
 .card_title {
     font-size: 200%;
-        color: #deeaee;
-    
+    color: #deeaee;
     border-radius: 5px;
     padding: 0px 5px;
 }
@@ -172,11 +173,26 @@ footer p{
     display: none;
 }
 
-.project-title {
-    float:right;
-    margin-right:20px;
-    margin-top: 10px;
+.navbar-right, .navbar-right a {
+    
+    font-weight: 600;
+    font-size: 100%;
     color: #deeaee;
+    border-radius: 5px;
+}
+#username {
+    padding-top: 15px;
+    text-align: center;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+#welcome-guest {
+    background-color: #deeaee;
+    color: #3f6c6b;
+    padding: 20px 20px;
+    font-size: 180%;
+    margin-top: -20px;
+    border-radius: 5px;
 }
 
 .detailed-board{
@@ -186,46 +202,38 @@ footer p{
     text-shadow: 2px, 2px, 4px, #b2c2bf;
     color: black, bold;
     background-color: #deeaee;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    padding-bottom: 20px;
 }
 
 .detailed-board > div {
     display: inline-block;
-    margin: 10px;
 }
 #detailed-board-title {
     font-size: 300%;
-    float: left;
+    text-align: left;
     margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 0px;
     color: #3f6c6b;
     text-shadow: 0.5px 0.5px #3f6c6b;
+    word-wrap: break-word;
 }
 #detailed-board-id, #detailed-board-state {
-    float: left;
-    margin-top: 20px;
-    margin-right: 10px;
-    color: #deeaee;
-    background-color: #c1502e;
-    padding: 0px 5px;
-    border-radius: 5px;
-}
-
-#back-to-root-toot, #create-new-board {
-    border-top-left-radius: 5px
-}
-
-#settings-button {
     display: none;
 }
 
-#back-to-root-toot:hover, #create-new-board:hover, #create-new-card:hover, #settings-button:hover {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+#back-to-root-toot:hover, #create-new-board:hover, #create-new-card:hover, .navbar-right a:hover{
+    border-radius: 5px;
     background-color: #deeaee;
     color: #3f6c6b;
 }
 
 .page-header.text-center {
     text-shadow: 1px 1px;
+    color: #3f6c6b;
+    font-weight: 900;
 }
 
 .panel-heading{
