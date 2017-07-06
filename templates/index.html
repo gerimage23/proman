@@ -17,11 +17,13 @@
     <body>
       <div class="page-header text-center">
         <h1>ProMan</h1>
-      </div>      
+      </div>
+      <!-- container/ -->
       <div class="container">
+        <!-- header/ -->
         <div class="header clearfix">
           <nav class="navbar navbar-fluid">
-            <div class="container-fluid">
+          <!-- boards, cards, welcome message/ -->  <div class="container-fluid">
               <ul class="nav navbar-nav">
                 {% if username  %}
                   <li role="presentation"><a href="#"id="back-to-root-toot"> Home </a></li>
@@ -41,7 +43,9 @@
             </div>
           </nav>
         </div>
+        <!-- /header -->
 
+        <!-- boards, cards, welcome message/ -->
         <div class="row detailed-board">
         </div>
         <div class="row marketing">
@@ -52,6 +56,7 @@
           <h3 id="welcome-guest">Welcome to our page! To see our awesome tables please log in or register.</h3>
           {% endif %}
         </div>
+        <!-- /boards, cards, welcome message -->
 
         <footer class="footer">
           <p>&copy; 2017 Deep s Mode</p>
