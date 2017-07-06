@@ -4,16 +4,10 @@ var app = app || {};
 // feel free to extend and change to fit your needs
 app.dataHandler = {
     boards: [], // it contains the boards and their cards
-    loadTestBoards: function() {
-        // if the settings say that we are in developer environment then it loads in
-        var myJSON = '{"boards": [{"id": 1337, "title": "Test Board 1","state": "active","cards": [{"id": 1,"title": "task1","status": "new","order": "53"},{"id": 2,"title": "task2","status": "in progress","order": "2"},{"id": 3,"title": "task3","status": "done","order": "1"}]},{"id": 2,"title": "Test Board 2","state": "active","cards": [{"id": 4,"title": "task4","status": "new","order": "3"},{"id": 5,"title": "task5","status": "in progress","order": "2"},{"id": 6,"title": "task6","status": "done","order": "1"}]}]}';
-        this.boards = JSON.parse(myJSON).boards;
-        // some test data, like the ones you find in sample_data.json
-    },
-
     loadBoards: function(callback) {
         // sends an AJAX request to a Flask endpoint and gets back
-        // a JSON as response which than uses to fill app.dataHandler.boards
+        // a JSON as response which contains all of the user related boards
+        // than uses the JSON formated response to fill app.dataHandler.boards
         $.ajax({
             url: '/load_boards',
             type: 'GET',
@@ -28,6 +22,8 @@ app.dataHandler = {
         });
     },
     saveBoards: function(callback) {
+        // sends an AJAX request to a Flask endpoint 
+        // containing the data from all of the user related boards
         var dataObject = app.dataHandler.boards;
         $.ajax({
             url: '/save_boards',
@@ -56,6 +52,8 @@ app.dataHandler = {
     },
 
     createNewBoard: function(boardTitle, callback) {
+        // sends an AJAX request to a Flask endpoint
+        // containg the data of the newly created boards title
         $.ajax({
             url: '/create_board',
             type: 'POST',
@@ -71,7 +69,10 @@ app.dataHandler = {
     },
 
     createNewCard: function(boardId, cardTitle, callback) {
-        // creates new card in the given board, saves it and returns its id
+        // sends an AJAX request containing 
+        // the newly created cards title and 
+        // the boards id containing it 
+        // to a Flask endpoint to save it
         $.ajax({
             url: '/create_card',
             type: 'POST',
@@ -85,8 +86,13 @@ app.dataHandler = {
             }
         });
     },
-    // here can come another features
+
     editCard: function(boardId, cardId, cardProperty, newCardContent) {
+        // finds a card in dataHandler.boards
+        // by boardId and cardId and then
+        // changes a property of a card 
+        // based on the cardProperty parameter
+        // to the value given in the newCardContent parameter
         for (var i = 0; i < this.getBoard(boardId).cards.length; i++) { 
             if (this.getBoard(boardId).cards[i].id === Number(cardId)) {
                 if (cardProperty === 'title') {
@@ -102,6 +108,7 @@ app.dataHandler = {
 
 
     min_or_max_Object: function(originObject,orderKey,direction) {
+        // our homemade sorting algorithm
         var val_index = 0;
         var min_or_max_value = originObject[0][orderKey];
         var key_value = originObject[0][orderKey];
@@ -168,6 +175,7 @@ app.dataHandler = {
    },
 
    numberOfCards: function() {
+       // counts the cards on the given board
        cards = []
        for (let i = 0; i < this.boards.length; i++) {
             newCards = this.boards[i].cards
@@ -177,6 +185,7 @@ app.dataHandler = {
    },
 
    findCardById: function(boardId, cardId) {
+       // using the given boardId finds the related card by cardId
        var cardList = this.boards[boardId].cards;
        
        var i = 0;
