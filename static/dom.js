@@ -129,8 +129,14 @@ app.dom = {
                     
                     app.dataHandler.editCard(boardId, cardId, "status", newStatus);    
                     app.dataHandler.editCard(boardId, cardId, "order", newOrder);
-                    app.dataHandler.saveBoards(function() {
+                    /*app.dataHandler.saveBoards(function() {
                         console.log('Board saved succesfully.');
+                    });*/
+
+                    $("#status-new div").each(function(i, elm) {
+                        $elm = $(elm); // cache the jquery object
+                        $elm.attr('class', $elm.index("#status-new div"));
+                        $elm.text($elm.text().split("-")[0] + " - " + $elm.attr('class'));
                     });
                 }
             }).disableSelection();
