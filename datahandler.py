@@ -6,7 +6,7 @@ from datetime import datetime
 
 def execute_sql_statement(sql_statement, values=tuple()):
     '''
-    Function handling quer requests to the database.
+    Function handling query requests to the database.
     '''
     with open('static/connection.json') as data_file:
         data = json.load(data_file)
@@ -105,7 +105,7 @@ def save_boards_to_db(boards):
         board_userid = board['user_id']
         board_cards = board['cards']
 
-        for card in _cards:
+        for card in board_cards:
             card_id = card['id']
             card_title = card['title']
             card_status = card['status']

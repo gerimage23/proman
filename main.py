@@ -112,7 +112,7 @@ def create_board():
     '''
     boardTitle = request.form["boardTitle"]
     username = session["username"]
-    user_id = get_user_id_from_db(username)
+    user_id = execute_sql_statement('''SELECT id FROM users WHERE username=%s;''', (username,))[0][0]
     add_new_board_to_db(boardTitle, user_id)
     response = {'message': 'succes'}
     return jsonify(response)
@@ -174,7 +174,7 @@ def users():
 
 
 def main():
-    app.run()
+    app.run(port=3000)
 
 if __name__ == '__main__':
     main()
