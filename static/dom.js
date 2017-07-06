@@ -5,7 +5,8 @@ var app = app || {};
 app.dom = {
 
     showBoards: function() {
-        // shows #boards div and hides #cards
+        // shows #boards div and corresponding elements 
+        // while hides #cards and not related elements
         $('#boards').fadeIn(500);
         $('#create-new-board').fadeIn(500);
         $('#settings-button').fadeIn(500);
@@ -31,7 +32,8 @@ app.dom = {
 
 
     showCards: function(boardId) {
-        // shows #cards div and hides #boards
+        // shows #cards div and corresponding elements 
+        // while hides #boards and not related elements
         $('#cards').empty();
         $('#cards').fadeIn(500);
         $('#back-to-root-toot').fadeIn(500);
@@ -41,7 +43,7 @@ app.dom = {
         $('#settings-button').hide();
         $('.detailed-board').empty();
         $('.detailed-board').fadeIn(500);
-        // using the boards data it creates the cards
+        // using the data from boards it creates the cards
         // on the page, appending them to #cards div
         app.dataHandler.loadBoards(function(){
             var content = app.dataHandler.getBoard(boardId);
@@ -55,7 +57,10 @@ app.dom = {
     },
 
     mainListener: function() {
+        // here we collect our listeners
         $('#cards').on('click', '.card_title', function() {
+            // when a click arrives on a card title
+            // this function handles the title change
             var boardId = $('#detailed-board-id').text();
             var cardId = $(this).next().text()
             var newCardContent = prompt($(this).text());
@@ -66,21 +71,16 @@ app.dom = {
                 })
         });
         $('#boards').on('click', '.board_title', function() {
+            // when a click arrives on a boards title
+            // this functions renders using the corresponding cards
             app.dom.showCards($(this).children().text())
             });
         $('#back-to-root-toot').on('click', function(){
+            // sending the user back to rooot
             app.dom.showBoards();
             });
-        $('#settings-button').on('click', function(){
-               if ($(this).text() === 'prod') {
-                   $(this).text('dev');
-                   app.dom.showBoards();
-               } else if ($(this).text() === 'dev') {
-                   $(this).text('prod');
-                   app.dom.showBoards();
-               }
-            });
         $('#create-new-board').on('click', function(){
+            // creating new board
             var boardTitle = prompt('Please add a new board title');
             if (boardTitle) 
             {
@@ -90,6 +90,7 @@ app.dom = {
             }
         });
         $('#create-new-card').on('click', function(){
+            // creating new card
             var cardTitle = prompt('Please add a new card title');
             var boardId = $('#detailed-board-id').text();
             if (cardTitle) 
@@ -100,8 +101,9 @@ app.dom = {
             }
         });
     },
-    // here comes more features
     generateColumns: function(cards) {
+        // this functions creates the columns 
+        // for holding the cards with matching state
         header = '<div class="row" id="columnNames">';
         header += '<div class="col-md-3 card-column"><h2>New</h2></div>';
         header += '<div class="col-md-3 card-column"><h2>In Progress</h2></div>';
@@ -167,6 +169,8 @@ app.dom = {
     },
 
     placeCards: function(cards) {
+        // placing cards in the matching columns 
+        // using the cards state for finding the relation between them
         for (var i = 0; i < cards.length; i++) {
             var destinationElement;
             switch (cards[i].status) {
