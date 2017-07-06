@@ -72,7 +72,6 @@ app.dataHandler = {
 
     createNewCard: function(boardId, cardTitle, callback) {
         // creates new card in the given board, saves it and returns its id
-         // creates new card in the given board, saves it and returns its id
         $.ajax({
             url: '/create_card',
             type: 'POST',

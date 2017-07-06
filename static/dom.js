@@ -185,7 +185,6 @@ app.dom = {
             }
 
             destinationElement.append("<div class='col-xs-3 col-md-3 col-lg-3 card draggable' id='card_order' ><h4 class='card_title'>"+cards[i].title+"</h4><p class='card_id'>"+cards[i].id+"</p><p class='card_status'>"+cards[i].status+"</p><p class='card_order'>"+cards[i].order+"</p></div>");
-            // $('.draggable').draggable();
         }
     }
 }
