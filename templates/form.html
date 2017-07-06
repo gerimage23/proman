@@ -35,9 +35,17 @@
                                         <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password...">
                                     </div>
                                 </div>
+                            </div>
+                            {% if act =='Register' %}
+                            <div class="row" align="center">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-md-offset-3 col-xs-offset-3 col-lg-offset-3 col-lg-6">
+                                    <div class="form-group">
+                                            <input type="password" name="password-confirm" id="password-confirm" class="form-control" placeholder="Re-enter your password...">                                        
+                                    </div>
+                                </div>
                             </div>    
+                            {% endif %}    
                             <input type="submit" value="{{'Register' if act=='Register' else 'Login'}}" class="btn btn-primary" id="submit-reg-button">
-                        
                         </form>
                     </div>
                 </div>
