@@ -138,8 +138,8 @@ def load_boards():
     '''
     if 'username' in session:
         username = session['username']
-        user_id = get_user_id_from_db(username)
-        stat = datahandler.execute_sql_statement("SELECT id, title, state, user_id FROM boards WHERE user_id=%s", (user_id,))
+        user_id = execute_sql_statement('''SELECT id FROM users WHERE username=%s;''', (username,))[0][0]
+        stat = execute_sql_statement("SELECT id, title, state, user_id FROM boards WHERE user_id=%s", (user_id,))
         vote_json = []
         main_tupl = {'boards': []}
         for i in range(len(stat)):
@@ -149,7 +149,7 @@ def load_boards():
             temp_tupl['state'] = stat[i][2]
             temp_tupl['user_id'] = stat[i][3]
             temp_tupl['cards'] = []
-            cards = datahandler.execute_sql_statement("SELECT id, title, status, card_order, board_id FROM cards WHERE board_id=" + str(stat[i][0]))
+            cards = execute_sql_statement("SELECT id, title, status, card_order, board_id FROM cards WHERE board_id=" + str(stat[i][0]))
             for j in range(len(cards)):
                 temp_cards_tupl = {}
                 temp_cards_tupl['id'] = cards[j][0]
@@ -159,7 +159,6 @@ def load_boards():
                 temp_cards_tupl['board_id'] = cards[j][4]
                 temp_tupl['cards'].append(temp_cards_tupl)
             main_tupl['boards'].append(temp_tupl)
-        # vote_json.append(temp_tupl)
         return jsonify(main_tupl)
     return redirect(url_for('root'))
 
